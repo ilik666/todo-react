@@ -5,20 +5,21 @@ import './TodoList.scss'
 
 export const TodoList = ({
 													 todos,
+													 handleLabel,
 													 handleMarkDone,
 													 handleMarkImportant,
 													 onDeleteTodoItem }) => {
 
 	const elements = todos.map( (item) => {
-		const {id, ...labels } = item
 
 		return (
-			<li key={id} className='list-group-item'>
+			<li key={item.id} className='list-group-item'>
 				<TodoItem
-					{...labels}
-					handleMarkImportant={ () => handleMarkImportant(id) }
-					handleMarkDone={ () => handleMarkDone(id) }
-					onDeleteTodoItem={ () => onDeleteTodoItem(id) }/>
+					{...item}
+					handleLabel={ handleLabel }
+					handleMarkImportant={ () => handleMarkImportant(item.id) }
+					handleMarkDone={ () => handleMarkDone(item.id) }
+					onDeleteTodoItem={ () => onDeleteTodoItem(item.id) }/>
 			</li>
 		)
 	})

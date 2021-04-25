@@ -16,6 +16,7 @@ export const AddTodo = ({ addNewTodoItem }) => {
 
 	return (
 		<form className='add-todo input-group' onSubmit={ addNewItemForLabel }>
+			<h3 className='mb-3'> Добавьте нове дело</h3>
 			<input
 				className='form-control'
 				placeholder='Введите текст'

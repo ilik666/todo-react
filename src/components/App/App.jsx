@@ -7,6 +7,9 @@ import './App.scss'
 
 export const App = () => {
 
+	const [todoData, setTodoData] = useState([])
+	const [searchTerm, setSearchTerm] = useState('')
+
 	const createTodo = (label) => ({
 		id: Math.random(), // Времмено - заменить на уникальный подход для ключей
 		label,
@@ -15,8 +18,14 @@ export const App = () => {
 		done: false
 	})
 
-	const [todoData, setTodoData] = useState([])
-	const [searchTerm, setSearchTerm] = useState('')
+	const searchTodos = (array, term = '') => {
+		if (term.length === 0) {
+			return array
+		}
+		return array.filter(item => {
+			return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1
+		})
+	}
 
 	useEffect(() => {
 		const raw = localStorage.getItem('todos') ?? []
@@ -32,27 +41,18 @@ export const App = () => {
 	}
 
 	const addNewTodoItem = (label) => {
-		setTodoData(todos => [...todos, createTodo(label)])
+		setTodoData(todos => [createTodo(label), ...todos])
 	}
 
-	const searchTodos = (array, term) => {
-		if (term.length === 0) {
-			return array
-		}
-		return array.filter(item => {
-			return item.label.toLowerCase().indexOf(term.toLowerCase()) > -1
-		})
-	}
 
 	const toggleProperty = (arr, id, propName, editLabel = undefined) => {
 		const idx = arr.findIndex(el => el.id === id)
 		const oldTodo = arr[idx]
 
-		const changesTodo = {
-			...oldTodo,
-			[propName]: !oldTodo[propName],
-			label: editLabel ?? oldTodo['label']
-		}
+		const changesTodo = { ...oldTodo }
+		editLabel ? changesTodo['label'] = editLabel : changesTodo[propName] = !oldTodo[propName]
+
+		console.log(changesTodo)
 
 		return [
 			...arr.slice(0, idx),
@@ -66,7 +66,9 @@ export const App = () => {
 	const handleMarkImportant = (id) => {
 		setTodoData(todos => toggleProperty(todos, id, 'important'))
 	}
-
+	const handleLabel = (id, label) => {
+		setTodoData( todos => toggleProperty(todos, id, undefined, label))
+	}
 	const countDone = todoData.filter(el => el.done).length
 	const countTodos = todoData.length - countDone
 
@@ -83,6 +85,7 @@ export const App = () => {
 					todos={searchTodos(todoData, searchTerm)}
 					handleMarkImportant={handleMarkImportant}
 					handleMarkDone={handleMarkDone}
+					handleLabel={handleLabel}
 					onDeleteTodoItem={onDeleteTodoItem}/>
 			</div>
 		</>

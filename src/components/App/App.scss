@@ -1,0 +1,16 @@
+.container {
+  padding: 1rem .75rem;
+  margin: 1rem auto 0;
+  max-width: 600px;
+  width: 100%;
+  //border: 1px solid #ced4da;
+  //border-radius: 5px;
+}
+* {
+  box-sizing: border-box;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  width: 100%;
+  font-family: Neucha,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
